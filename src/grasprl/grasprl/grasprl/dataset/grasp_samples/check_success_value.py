@@ -9,6 +9,7 @@ forces = []
 sforces = []
 fforces = []
 
+
 files = [f for f in os.listdir(data_path) if f.endswith(".npy")]
 
 for f in files:

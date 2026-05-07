@@ -91,6 +91,7 @@ class GraspRobot(MujocoPhyEnv):
                 return True
         return False
 
+
     def down_and_grasp(self, target):
         down_pose = target.copy()
         down_pose[2] -= 0.04

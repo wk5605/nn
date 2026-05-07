@@ -4,6 +4,7 @@ import numpy as np
 data_path = os.path.dirname(os.path.abspath(__file__))
 need_fields = ["grasp_success", "grasp_force", "grasp_pose"]
 
+
 total = 0
 lack = 0
 error_files = []

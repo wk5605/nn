@@ -50,6 +50,7 @@ class DQN(nn.Module):
         x = x.view(x.size(0), -1)
         return self.fc(x)
 
+
 class DQN_Trainer:
     def __init__(self, render_mode="human"):
         self.env = GraspRobot(render_mode=render_mode)
