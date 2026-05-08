@@ -55,6 +55,14 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#4">4. 模块结构与入口</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5">5.运行指南</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-carla">步骤 1：启动 CARLA 模拟器</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-python">步骤 2：配置 Python 环境</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -103,14 +111,7 @@
 <li>本模块的所有核心代码存放于 <code>src/carla_yolo_detection</code> 目录下。</li>
 <li>模块的主程序入口为 <code>main.py</code>。</li>
 </ul>
-<h1 id="2-carla_yolo_detection">[第2次提交] carla_yolo_detection: 实时感知与背景车流系统</h1>
-<h2 id="1_1">1. 模块功能</h2>
-<p>本模块实现了自动驾驶视觉感知的基础闭环：
-- <strong>实时物体检测</strong>: 集成 YOLOv5s 模型，实时识别 CARLA 环境中的车辆与行人。
-- <strong>背景交通流生成</strong>: 利用 Traffic Manager 自动随机部署 30 辆背景车，模拟动态路况。
-- <strong>异步推理架构</strong>: 优化了图像处理流程，通过回调截取最新帧，避免了深度学习推理导致的画面卡死，并支持实时 FPS 显示。
-- <strong>安全监听</strong>: 挂载碰撞传感器 (Collision Sensor)，实时在终端发出碰撞预警。</p>
-<h2 id="2_1">2. 运行指南</h2>
+<h2 id="5">5.运行指南</h2>
 <h3 id="1-carla">步骤 1：启动 CARLA 模拟器</h3>
 <p>运行 <code>CarlaUE4.exe</code>，等待地图加载完毕。</p>
 <h3 id="2-python">步骤 2：配置 Python 环境</h3>
@@ -136,9 +137,39 @@
 </ol>
 <p>```bash
    pip install torch torchvision torchaudio --index-url <a href="https://download.pytorch.org/whl/cu118">https://download.pytorch.org/whl/cu118</a></p>
+<p>```</p>
 <p>步骤 3：运行程序
 请在项目根目录下执行核心脚本：
 <code>python src/carla_yolo_detection/main.py</code></p>
+<h1 id="2-carla_yolo_detection">[第2次提交] carla_yolo_detection: 实时感知与背景车流系统</h1>
+<h2 id="1_1">1. 模块功能</h2>
+<p>本模块实现了自动驾驶视觉感知的基础闭环：</p>
+<ul>
+<li><strong>实时物体检测</strong>: 集成 YOLOv5s 模型，实时识别 CARLA 环境中的车辆与行人。</li>
+<li><strong>背景交通流生成</strong>: 利用 Traffic Manager 自动随机部署 30 辆背景车，模拟动态路况。</li>
+<li><strong>异步推理架构</strong>: 优化了图像处理流程，通过回调截取最新帧，避免了深度学习推理导致的画面卡死，并支持实时 FPS 显示。</li>
+<li><strong>安全监听</strong>: 挂载碰撞传感器 (Collision Sensor)，实时在终端发出碰撞预警。</li>
+</ul>
+<h2 id="2_1">2. 运行效果</h2>
+<p><img alt="" src="images/start.png" /></p>
+<hr />
+<h1 id="3-aeb">[第3次提交] 前向测距与 AEB 自动紧急制动系统</h1>
+<h2 id="1_2">1. 功能说明</h2>
+<p>在感知系统的基础上，本版本引入了决策与控制模块，实现了车辆的主动安全防护，并大幅优化了仿真体验：</p>
+<ul>
+<li><strong>多传感器同步与测距</strong>：同步挂载 RGB 与 Depth 深度相机（统一 FOV 与 Transform）。利用 YOLO 提取目标框，映射至深度图取中值，实现了极具鲁棒性的抗噪前向测距。</li>
+<li><strong>三段式接管控制 (AEB)</strong>：</li>
+<li><code>距离 &gt; 15m (NORMAL)</code>：安全状态，车辆交由 Autopilot 自主巡航。</li>
+<li><code>5m &lt; 距离 &lt;= 15m (WARN)</code>：预警状态，终端提示注意前方目标。</li>
+<li><code>距离 &lt;= 5m (BRAKE)</code>：危险状态，系统强行覆盖 Autopilot，油门归零、刹车拉满 (<code>brake=1.0</code>)，画面闪烁红色警报覆层。危险解除后自动恢复 Autopilot。</li>
+<li><strong>仿真环境深度优化 </strong>：</li>
+<li><strong>自动垃圾回收</strong>：启动时自动销毁上次运行残留的车辆与传感器，杜绝幽灵碰撞。</li>
+<li><strong>视角自动追踪</strong>：初始化时自动将 CARLA 旁观者视角 (Spectator) 锁定至自车上方，告别手动找车的烦恼。</li>
+<li><strong>HUD 增强显示</strong>：新增自车实时全局坐标 (X, Y, Yaw) 与 AEB 状态指示灯的屏幕渲染。</li>
+</ul>
+<h2 id="2_2">2. 运行效果展示</h2>
+<p><img alt="" src="images/stage3_abe.png" />
+<em>图：系统成功捕获前方小于5米的目标，瞬间夺取控制权触发 EMERGENCY BRAKE，并渲染红色全屏警报。</em></p>
               
             </div>
           </div><footer>
