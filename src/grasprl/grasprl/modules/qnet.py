@@ -4,6 +4,7 @@ import torch.nn.functional as F
 import numpy as np
 import torchvision.transforms as T
 
+
 class CONV3_FC1(nn.Module):
     def __init__(self, h, w, outputs):
         super(CONV3_FC1, self).__init__()

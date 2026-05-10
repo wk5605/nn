@@ -9,8 +9,8 @@ import random
 import os
 import sys
 import cv2
-
-sys.path.append(r"D:\nn\src\grasprl\grasprl")
+#改成相对路径 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from envs.grasp import GraspRobot
 from modules.ddpg import ReplayBuffer, Transition

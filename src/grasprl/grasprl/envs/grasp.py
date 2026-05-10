@@ -63,6 +63,7 @@ class GraspRobot(MujocoPhyEnv):
         py = int((y * fy / z) + cy)
         return px, py
 
+
     def pixel2world(self, cam_id, px, py, depth):
         x = (px / self.IMAGE_WIDTH - 0.5) * 0.48
         y = (py / self.IMAGE_HEIGHT - 0.5) * 0.48

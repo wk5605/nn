@@ -35,7 +35,6 @@ class JntEffortCtrl:
     def reset(self) -> None:
         pass
 
-
 class GripperEffortCtrl:
     def __init__(
         self,
