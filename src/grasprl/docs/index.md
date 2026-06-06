@@ -40,7 +40,7 @@ pip install numpy mujoco torch gymnasium opencv-python tensorboard tqdm
 ## 三、项目结构
 ```
 nn/src/grasprl/
-├── README_GRASPRL.md                 # 项目说明
+├── index.md                         # 项目说明（本文档）
 ├── docs/
 │   ├── index.md                      # 文档主页
 │   └── images/                       # 文档图片资源
@@ -105,9 +105,7 @@ nn/src/grasprl/
 - `top_down` 固定相机：用于获取训练观测图像
 - `eyeinhand` 手眼相机：安装在末端执行器旁
 
-<div align="center">
-<img src="images/1.png" width="750" alt="MuJoCo仿真场景截图">
-</div>
+![MuJoCo仿真场景截图](images/1.png)
 
 ---
 ### 4.2 环境：GraspRobot（核心类）
@@ -119,9 +117,7 @@ nn/src/grasprl/
 - **观测**：`defaultdict` 包含 RGB 图像 (64×64×3) 和深度图 (64×64)
 - **动作**：`Box(low=-0.5, high=0.5, shape=[3])` → 世界坐标系下抓取目标位置 [x, y, z]
 
-<div align="center">
-<img src="images/2.png" width="550" alt="Top-down相机观测视角">
-</div>
+![Top-down相机观测视角](images/2.png)
 
 #### 4.2.2 奖励设计（密集 + 稀疏混合）
 | 奖励类型 | 系数 | 触发阶段 | 计算方式 |
@@ -300,16 +296,12 @@ iter [2]/[100]  grasp_info=Failed  reward=-1.333  action=instruction
 - `reward`：本轮奖励（包含密集+稀疏）
 - `action`：动作来源（greedy=网络输出 / instruction=引导探索）
 
-<div align="center">
-<img src="images/3.png" width="700" alt="训练终端输出日志">
-</div>
+![训练终端输出日志](images/3.png)
 
 ### 5.3 训练过程可视化（TensorBoard）
 训练过程中所有核心指标通过TensorBoard实时监控，下图为训练全流程的指标变化曲线：
 
-<div align="center">
-<img src="images/4.png" width="850" alt="TensorBoard训练指标曲线">
-</div>
+![TensorBoard训练指标曲线](images/4.png)
 
 #### 核心指标解读：
 1. **Reward 奖励曲线（橙色）**：每轮抓取的累计奖励，训练前期波动较大，后期稳步上升，说明策略从随机探索逐步收敛到有效抓取行为
@@ -339,9 +331,7 @@ cd D:\nn\src\grasprl
 python debug_step.py
 ```
 
-<div align="center">
-<img src="images/5.png" width="750" alt="硬编码抓取仿真运行界面">
-</div>
+![硬编码抓取仿真运行界面](images/5.png)
 
 ---
 ## 六、项目改进历程
