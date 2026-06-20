@@ -52,7 +52,12 @@ title: 主页
 
 [__强化学习__](RL.md)
 
+<<<<<<< HEAD
 [__强化学习工作空间__](rl_workspace.md)
+=======
+[机器人仿真(MuJoCo)](ant_robot/机器人仿真系统.md)
+[__GraspRL机械臂抓取强化学习项目__](./index - wk.md) — 基于DQN与MuJoCo的视觉机械臂抓取仿真项目
+>>>>>>> 62bed67c (加入index.md文件)
 
 ---
 ## 感知 <span id="perception"></span>
